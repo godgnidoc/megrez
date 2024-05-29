@@ -22,6 +22,11 @@ ID_PCBRing = R_SI * 2 - D_SI - S_WallD;
 
 assemble("Shell") mount();
 
+/**
+ * 螺母
+ * @param l 边长
+ * @param h 高度
+ */
 module nut(l = 4, h = 1.6) g() {
   pieces(n = 3) turnXY(every(60)) box(x = l / sqrt(3), y = l, h = h);
 }
@@ -68,6 +73,19 @@ module mount() {
         // Z(TOP_PCBRing + H_PCB) tube(d = D_SIH + thetaD, h = D_SI);
       }
     }
+
+    /**
+     * 电机 PogoPin 触点焊盘留孔
+     */
+    remove(add = "PogoPin") {
+      X(R_Q) {
+        chamfer(0, 0, -1, fnCorner = 60) box(x = X_Q, y = Y_Q, h = H_L1 + H_L2);
+      }
+      X(R_Q - X_Q / 2) {
+        chamfer(0, 0, -1, fnCorner = 60)
+            box(x = X_Q, y = Y_Q, h = H_L1 + H_L2 + H_PCBRing);
+      }
+    }
   }
 
   applyTo("WeightRing", TOUP(), Z(H_L1 + H_L2)) {
@@ -79,6 +97,14 @@ module mount() {
         pieces(n = 4) turnXY(span(360, allButLast = true) + 45)
             X((R_SI + R_SO) / 2)
                 box(x = D_SO + D_SI + S_WallD, y = D_SO + D_SI, h = H_PCBRing);
+        X(R_Q + X_Q * 0.25) {
+          Y(Y_Q * 0.4)
+          chamfer(0, 0, -1, fnCorner = 60)
+              box(x = X_Q * 0.5, y = Y_Q * 0.4, h = H_PCBRing);
+          Y(Y_Q * -0.4)
+          chamfer(0, 0, -1, fnCorner = 60)
+              box(x = X_Q * 0.5, y = Y_Q * 0.4, h = H_PCBRing);
+        }
       }
       pieces(n = 4) turnXY(span(360, allButLast = true) + 45) Z(0.5) {
         hull() {
@@ -91,6 +117,7 @@ module mount() {
     }
   }
 }
+
 /**
  * 方形开槽
  */
