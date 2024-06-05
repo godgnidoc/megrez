@@ -20,6 +20,9 @@ OD_PCBRing = R_SO * 2 - D_SO - S_WallD;
  */
 ID_PCBRing = R_SI * 2 - D_SI - S_WallD;
 
+echo(str("ID_PCBRing / 2 = ", ID_PCBRing / 2))
+echo(str("(OD_PCBRing - thetaD) / 2 = ", (OD_PCBRing - thetaD) / 2))
+echo(str("R_Q - X_Q / 2 = ", R_Q - X_Q / 2))
 assemble("Shell") mount();
 
 /**
